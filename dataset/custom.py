@@ -25,12 +25,12 @@ class ImagePairDataset(Dataset):
 
     def __getitem__(self, index):
         img_path_a, img_path_b = self.samples[index]
-        img_a = Image.open(img_path_a).convert('RGB')
+        img_a = Image.open(img_path_a).convert('RGB') 
         img_b = Image.open(img_path_b).convert('RGB')
         if self.transform:
             img_a = self.transform(img_a)
             img_b = self.transform(img_b)
-        return img_a, img_b
+        return img_b, img_a, img_b
 
 def build_transform(image_size):
     return transforms.Compose([
