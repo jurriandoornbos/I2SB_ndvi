@@ -36,8 +36,15 @@ def build_transform(image_size):
     return transforms.Compose([
         transforms.Resize(image_size),
         transforms.ToTensor(),
+        #can do like flips and stuff, but as we deal with NDVI sat-imagery, does not matter that much
+        #I assume.
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
 def build_dataloader(dataset, batch_size, shuffle=True):
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
+
+def build_dataset(opt,log,train):
+    transform = build_transform(image_size=opt.image_size)
+    dataset = ImagePairDataset(opt, transform)
+    return dataset

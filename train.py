@@ -131,8 +131,8 @@ def main(opt):
     #val_dataset   = imagenet.build_lmdb_dataset(opt, log, train=False)
     # note: images should be normalized to [-1,1] for corruption methods to work properly
     #AFTER:
-    train_dataset = custom.ImagePairDataset(opt,transform=True)
-    val_dataset = custom.ImagePairDataset(opt,transform=False)
+    train_dataset = custom.build_dataset(opt,log, train=True)
+    val_dataset = custom.build_dataset(opt,log,train=False)
     if opt.corrupt == "mixture":
         import corruption.mixture as mix
         train_dataset = mix.MixtureCorruptDatasetTrain(opt, train_dataset)
