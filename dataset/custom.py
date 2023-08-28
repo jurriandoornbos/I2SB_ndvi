@@ -5,9 +5,9 @@ from torchvision import transforms
 from PIL import Image
 
 class ImagePairDataset(Dataset):
-    def __init__(self, opt, transform=None):
-        self.root_a = os.path.join(opt.dataset_dir, "A")
-        self.root_b = os.path.join(opt.dataset_dir,  "B")
+    def __init__(self, root_a, root_b, transform=None):
+        self.root_a = root_a
+        self.root_b = root_b
         self.transform = transform
         self.samples = self._make_dataset()
 
@@ -45,6 +45,14 @@ def build_dataloader(dataset, batch_size, shuffle=True):
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
 def build_dataset(opt,log,train):
-    transform = build_transform(image_size=opt.image_size)
-    dataset = ImagePairDataset(opt, transform)
+    if train:
+        transform = build_transform(image_size=opt.image_size)
+        root_a = os.path.join(opt.dataset_dir, "A", "train")
+        root_b = os.path.join(opt.dataset_dir, "B", "train")
+        dataset = ImagePairDataset(root_a, root_b, transform)
+    else:
+        transform = build_transform(image_size=opt.image_size)
+        root_a = os.path.join(opt.dataset_dir, "A", "val")
+        root_b = os.path.join(opt.dataset_dir, "B", "val")
+        dataset = ImagePairDataset(root_a, root_b, transform)
     return dataset
