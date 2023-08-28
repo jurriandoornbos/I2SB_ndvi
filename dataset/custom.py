@@ -28,7 +28,7 @@ class ImagePairDataset(Dataset):
         img_path_a, img_path_b = self.samples[index]
         img_a = Image.open(img_path_a).convert('RGB') 
         img_b = Image.open(img_path_b).convert('RGB')
-        if self.transform:
+        if self.transforma:
             img_a = self.transforma(img_a)
             img_b = self.transformb(img_b)
         return img_b, img_a, img_b #clean, corrupt, y
