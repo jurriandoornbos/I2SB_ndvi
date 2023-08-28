@@ -23,7 +23,7 @@ from torch.multiprocessing import Process
 from logger import Logger
 from distributed_util import init_processes
 from corruption import build_corruption
-from dataset import imagenet
+from dataset import imagenet, custom
 from i2sb import Runner, download_ckpt
 
 import colored_traceback.always
@@ -127,10 +127,12 @@ def main(opt):
         set_seed(opt.seed + opt.global_rank)
 
     # build imagenet dataset
-    train_dataset = imagenet.build_lmdb_dataset(opt, log, train=True)
-    val_dataset   = imagenet.build_lmdb_dataset(opt, log, train=False)
+    #train_dataset = imagenet.build_lmdb_dataset(opt, log, train=True)
+    #val_dataset   = imagenet.build_lmdb_dataset(opt, log, train=False)
     # note: images should be normalized to [-1,1] for corruption methods to work properly
-
+    #AFTER:
+    train_dataset = custom.ImagePairDataset(opt,transform=True)
+    val_dataset = custom.ImagePairDataset(opt,transform=False)
     if opt.corrupt == "mixture":
         import corruption.mixture as mix
         train_dataset = mix.MixtureCorruptDatasetTrain(opt, train_dataset)
