@@ -5,10 +5,11 @@ from torchvision import transforms
 from PIL import Image
 
 class ImagePairDataset(Dataset):
-    def __init__(self, root_a, root_b, transform=None):
+    def __init__(self, root_a, root_b, transforma=None,transformb=None):
         self.root_a = root_a
         self.root_b = root_b
-        self.transform = transform
+        self.transforma = transforma
+        self.transformb = transformb
         self.samples = self._make_dataset()
 
     def _make_dataset(self):
@@ -28,11 +29,11 @@ class ImagePairDataset(Dataset):
         img_a = Image.open(img_path_a).convert('RGB') 
         img_b = Image.open(img_path_b).convert('RGB')
         if self.transform:
-            img_a = self.transform(img_a)
-            img_b = self.transform(img_b)
-        return img_b, img_a, img_b
+            img_a = self.transforma(img_a)
+            img_b = self.transformb(img_b)
+        return img_b, img_a, img_b #clean, corrupt, y
 
-def build_transform(image_size):
+def build_transform_3ch(image_size):
     return transforms.Compose([
         transforms.Resize(image_size),
         transforms.ToTensor(),
@@ -40,19 +41,30 @@ def build_transform(image_size):
         #I assume.
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
+def build_transform_1ch(image_size):
+    return transforms.Compose([
+        transforms.Resize(image_size),
+        transforms.ToTensor(),
+        #can do like flips and stuff, but as we deal with NDVI sat-imagery, does not matter that much
+        #I assume.
+        transforms.Normalize(mean=[0.5], std=[0.5])
+    ])
+
 
 def build_dataloader(dataset, batch_size, shuffle=True):
     return DataLoader(dataset, batch_size=batch_size, shuffle=shuffle)
 
 def build_dataset(opt,log,train):
     if train:
-        transform = build_transform(image_size=opt.image_size)
+        transforma = build_transform_3ch(image_size=opt.image_size)
+        transformb = build_transform_1ch(image_size=opt.image_size)
         root_a = os.path.join(opt.dataset_dir, "A", "train")
         root_b = os.path.join(opt.dataset_dir, "B", "train")
-        dataset = ImagePairDataset(root_a, root_b, transform)
+        dataset = ImagePairDataset(root_a, root_b, transforma, transformb)
     else:
-        transform = build_transform(image_size=opt.image_size)
+        transforma = build_transform_3ch(image_size=opt.image_size)
+        transformb = build_transform_1ch(image_size=opt.image_size)
         root_a = os.path.join(opt.dataset_dir, "A", "val")
         root_b = os.path.join(opt.dataset_dir, "B", "val")
-        dataset = ImagePairDataset(root_a, root_b, transform)
+        dataset = ImagePairDataset(root_a, root_b, transforma, transformb)
     return dataset
