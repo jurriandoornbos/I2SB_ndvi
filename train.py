@@ -152,7 +152,6 @@ if __name__ == '__main__':
 
     # one-time download: ADM checkpoint
     download_ckpt("data/")
-
     if opt.distributed:
         size = opt.n_gpu_per_node
 
