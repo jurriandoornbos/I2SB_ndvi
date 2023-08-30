@@ -137,10 +137,10 @@ class MixtureCorruptDatasetVal(Dataset):
         return self.dataset.__len__()
 
     def __getitem__(self, index):
-        clean_img, y = self.dataset[index] # clean_img: tensor [-1,1]
+        clean_img, corrupt_img, y = self.dataset[index] # clean_img: tensor [-1,1]
 
-        idx = index % len(AllCorrupt)
-        corrupt_img = self.method.mixture(clean_img.unsqueeze(0), idx, mask_index=idx).squeeze(0)
+        rand_idx = np.random.choice(AllCorrupt)
+        #corrupt_img = self.method.mixture(clean_img.unsqueeze(0), rand_idx).squeeze(0)
 
         assert corrupt_img.shape == clean_img.shape, (clean_img.shape, corrupt_img.shape)
         return clean_img, corrupt_img, y
