@@ -31,7 +31,7 @@ class ImagePairDataset(Dataset):
         if self.transforma:
             img_a = self.transforma(img_a)
             img_b = self.transformb(img_b)
-        return img_b, img_a, img_b #clean, corrupt, y
+        return img_b, img_a #clean, corrupt, y
 
 def build_transform_3ch(image_size):
     return transforms.Compose([
