@@ -133,10 +133,10 @@ def main(opt):
     #AFTER:
     train_dataset = custom.build_dataset(opt,log, train=True)
     val_dataset = custom.build_dataset(opt,log,train=False)
-    if opt.corrupt == "mixture":
-        import corruption.mixture as mix
-        train_dataset = mix.MixtureCorruptDatasetTrain(opt, train_dataset)
-        val_dataset = mix.MixtureCorruptDatasetVal(opt, val_dataset)
+    #if opt.corrupt == "mixture":
+    #    import corruption.mixture as mix
+    #    train_dataset = mix.MixtureCorruptDatasetTrain(opt, train_dataset)
+    #    val_dataset = mix.MixtureCorruptDatasetVal(opt, val_dataset)
 
     # build corruption method
     corrupt_method = build_corruption(opt, log)
