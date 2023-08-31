@@ -280,16 +280,16 @@ class Runner(object):
         batch, len_t, *xdim = xs.shape
         assert img_clean.shape == img_corrupt.shape == (batch, *xdim)
         assert xs.shape == pred_x0s.shape
-        assert y.shape == (batch,)
+        #assert y.shape == (batch,)
         log.info(f"Generated recon trajectories: size={xs.shape}")
 
         def log_image(tag, img, nrow=10):
             self.writer.add_image(it, tag, tu.make_grid((img+1)/2, nrow=nrow)) # [1,1] -> [0,1]
 
-        def log_accuracy(tag, img):
-            pred = self.resnet(img.to(opt.device)) # input range [-1,1]
-            accu = self.accuracy(pred, y.to(opt.device))
-            self.writer.add_scalar(it, tag, accu)
+        #def log_accuracy(tag, img):
+        #    pred = self.resnet(img.to(opt.device)) # input range [-1,1]
+        #    accu = self.accuracy(pred, y.to(opt.device))
+        #    self.writer.add_scalar(it, tag, accu)
 
         log.info("Logging images ...")
         img_recon = xs[:, 0, ...]
@@ -300,9 +300,9 @@ class Runner(object):
         log_image("debug/recon_traj",      xs.reshape(-1, *xdim),      nrow=len_t)
 
         log.info("Logging accuracies ...")
-        log_accuracy("accuracy/clean",   img_clean)
-        log_accuracy("accuracy/corrupt", img_corrupt)
-        log_accuracy("accuracy/recon",   img_recon)
+        #log_accuracy("accuracy/clean",   img_clean)
+        #log_accuracy("accuracy/corrupt", img_corrupt)
+        #log_accuracy("accuracy/recon",   img_recon)
 
         log.info(f"========== Evaluation finished: iter={it} ==========")
         torch.cuda.empty_cache()
