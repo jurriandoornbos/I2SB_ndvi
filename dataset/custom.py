@@ -68,3 +68,18 @@ def build_dataset(opt,log,train):
         root_b = os.path.join(opt.dataset_dir, "B", "val")
         dataset = ImagePairDataset(root_a, root_b, transforma, transformb)
     return dataset
+
+def build_test_dataset(opt,log,test):
+    if test:
+        transforma = build_transform_3ch(image_size=opt.image_size)
+        transformb = build_transform_1ch(image_size=opt.image_size)
+        root_a = os.path.join(opt.dataset_dir, "A", "test")
+        root_b = os.path.join(opt.dataset_dir, "B", "test")
+        dataset = ImagePairDataset(root_a, root_b, transforma, transformb)
+    else:
+        transforma = build_transform_3ch(image_size=opt.image_size)
+        transformb = build_transform_1ch(image_size=opt.image_size)
+        root_a = os.path.join(opt.dataset_dir, "A", "val")
+        root_b = os.path.join(opt.dataset_dir, "B", "val")
+        dataset = ImagePairDataset(root_a, root_b, transforma, transformb)
+    return dataset

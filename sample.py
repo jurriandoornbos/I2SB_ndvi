@@ -25,7 +25,7 @@ from logger import Logger
 import distributed_util as dist_util
 from i2sb import Runner, download_ckpt
 from corruption import build_corruption
-from dataset import imagenet
+from dataset import imagenet, custom
 from i2sb import ckpt_util
 
 import colored_traceback.always
@@ -140,10 +140,10 @@ def main(opt):
     nfe = opt.nfe or ckpt_opt.interval-1
 
     # build corruption method
-    corrupt_method = build_corruption(opt, log, corrupt_type=corrupt_type)
+    #corrupt_method = build_corruption(opt, log, corrupt_type=corrupt_type)
 
     # build imagenet val dataset
-    val_dataset = build_val_dataset(opt, log, corrupt_type)
+    val_dataset = custom.build_test_dataset(opt, log, test=True)
     n_samples = len(val_dataset)
 
     # build dataset per gpu and loader
