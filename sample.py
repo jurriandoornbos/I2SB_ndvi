@@ -172,7 +172,7 @@ def main(opt):
     for loader_itr, out in enumerate(val_loader):
 
         corrupt_img, x1, mask, cond, y = compute_batch(ckpt_opt, corrupt_type, corrupt_method, out)
-        log.info(corrupt_img, x1, mask, cond, y)
+        #log.info(corrupt_img, x1, mask, cond, y)
 
         xs, _ = runner.ddpm_sampling(
             ckpt_opt, x1, mask=mask, cond=cond, clip_denoise=opt.clip_denoise, nfe=nfe, verbose=opt.n_gpu_per_node==1

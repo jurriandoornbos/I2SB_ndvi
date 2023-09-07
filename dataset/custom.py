@@ -15,7 +15,7 @@ class ImagePairDataset(Dataset):
     def _make_dataset(self):
         samples = []
         for img_name in os.listdir(self.root_a):
-            if img_name.lower().endswith(".png"):
+            if img_name.lower().endswith((".png", ".jpg")):
                 img_path_a = os.path.join(self.root_a, img_name)
                 img_path_b = os.path.join(self.root_b, img_name)
                 samples.append((img_path_a, img_path_b))
