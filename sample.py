@@ -118,6 +118,7 @@ def compute_batch(ckpt_opt, corrupt_type, corrupt_method, out):
     elif corrupt_type == "mixture":
         clean_img, corrupt_img, y = out
         mask = None
+        x1 = corrupt_img.to(opt.device)
     else:
         clean_img, y = out
         mask = None
