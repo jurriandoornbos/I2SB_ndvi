@@ -140,7 +140,7 @@ def main(opt):
     nfe = opt.nfe or ckpt_opt.interval-1
 
     # build corruption method
-    #corrupt_method = build_corruption(opt, log, corrupt_type=corrupt_type)
+    corrupt_method = build_corruption(opt, log, corrupt_type=corrupt_type)
 
     # build imagenet val dataset
     val_dataset = custom.build_test_dataset(opt, log, test=True)
