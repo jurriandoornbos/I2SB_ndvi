@@ -181,6 +181,11 @@ def main(opt):
         recon_img = xs[:, 0, ...].to(opt.device)
 
         assert recon_img.shape == corrupt_img.shape
+        path = recon_imgs_fn.strip("recon.pt")
+        filename = f"{loader_itr:0>{6}}" +".png"
+
+        tu.save_image((corrupt_img+1)/2, path + "corrupt" + filename)
+        tu.save_image((recon_img+1)/2, path + "recon" + filename)
 
         if loader_itr == 0 and opt.global_rank == 0: # debug
             os.makedirs(".debug", exist_ok=True)
