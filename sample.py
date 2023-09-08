@@ -181,7 +181,7 @@ def main(opt):
         recon_img = xs[:, 0, ...].to(opt.device)
 
         assert recon_img.shape == corrupt_img.shape
-        path = str(recon_imgs_fn).strip("recon.pt")
+        path = str(recon_imgs_fn)[:-8]
         filename = f"{loader_itr:0>{6}}" +".png"
 
         tu.save_image((corrupt_img+1)/2, path + "corrupt" + filename)
