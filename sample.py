@@ -184,8 +184,8 @@ def main(opt):
         path = str(recon_imgs_fn)[:-8]
         filename = f"{loader_itr:0>{6}}" +".png"
 
-        tu.save_image((corrupt_img+1)/2, path + "corrupt" + filename)
-        tu.save_image((recon_img+1)/2, path + "recon" + filename)
+        #tu.save_image((corrupt_img+1)/2, path + "corrupt" + filename)
+        #tu.save_image((recon_img+1)/2, path + "recon" + filename)
 
         if loader_itr == 0 and opt.global_rank == 0: # debug
             os.makedirs(".debug", exist_ok=True)
@@ -203,6 +203,8 @@ def main(opt):
 
         num += len(gathered_recon_img)
         log.info(f"Collected {num} recon images!")
+        tu.save_image((corrupt_img+1)/2, path + "corrupt" + filename)
+        tu.save_image((recon_img+1)/2, path + "recon" + filename)
         dist.barrier()
 
     del runner
